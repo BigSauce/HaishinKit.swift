@@ -61,9 +61,9 @@ open class NetStream: NSObject {
                 return
             }
             if syncOrientation {
-                NotificationCenter.default.addObserver(self, selector: #selector(on), name: UIDevice.orientationDidChangeNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(on), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
             } else {
-                NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+                NotificationCenter.default.removeObserver(self, name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
             }
         }
     }
@@ -188,8 +188,8 @@ open class NetStream: NSObject {
     }
 
     #if os(iOS)
-    @objc private func on(uiDeviceOrientationDidChange: Notification) {
-        if let orientation: AVCaptureVideoOrientation = DeviceUtil.videoOrientation(by: uiDeviceOrientationDidChange) {
+    @objc private func on(uiInterfaceOrientationDidChange: Notification) {
+        if let orientation: AVCaptureVideoOrientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
             self.orientation = orientation
         }
     }
